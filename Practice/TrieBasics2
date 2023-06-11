@@ -1,0 +1,99 @@
+#include <bits/stdc++.h> 
+struct Node{
+Node *list[26];
+int countPrefix=0;
+int countEndWith=0;
+bool containKey(char ch){
+    return list[ch-'a']!=NULL;
+}
+void put(char ch,Node* node){
+    list[ch-'a']=node;
+}
+Node* get(char ch) {
+    return list[ch-'a'];
+}
+void setPrefix(){
+    countPrefix++;
+
+}
+void setEndWith(){
+    countEndWith++;
+}
+int getEndWith(){
+    return countEndWith;
+}
+int getPrefix(){
+    return countPrefix;
+}
+void delPrefix(){
+    countPrefix--;
+
+}
+void delEndWith(){
+    countEndWith--;
+}
+};
+class Trie{
+ private: Node *root;
+    public:
+    
+
+    Trie(){
+        root=new Node();
+        // Write your code here.
+    }
+
+    void insert(string &word){
+        Node *node=root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containKey(word[i])){
+node->put(word[i],new Node());
+            }
+            node=node->get(word[i]);
+            node->setPrefix();
+
+        }
+        node->setEndWith();
+        // Write your code here.
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+Node *node=root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containKey(word[i])){
+return 0;
+            } else {
+              node = node->get(word[i]);
+            }
+        }
+        return node->getEndWith();
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        Node *node=root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containKey(word[i])){
+return 0;
+            } else {
+              node = node->get(word[i]);
+            }
+        }
+        return node->getPrefix();
+    }
+
+    void erase(string &word){
+                Node *node=root;
+        for(int i=0;i<word.length();i++){
+            if(!node->containKey(word[i])){
+return ;
+            } else {
+              node = node->get(word[i]);
+              node->delPrefix();
+            }
+        }
+         node->delEndWith();
+        // Write your code here.
+    }
+};
